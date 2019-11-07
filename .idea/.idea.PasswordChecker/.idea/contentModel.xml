@@ -6,7 +6,6 @@
     <e p="C:\Users\dacu\RiderProjects\PasswordChecker" t="IncludeFlat">
       <e p="packages" t="ExcludeRecursive" />
       <e p="PasswordChecker" t="IncludeRecursive">
-        <e p=".gitignore" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="LICENSE" t="Include" />
         <e p="obj" t="ExcludeRecursive">
