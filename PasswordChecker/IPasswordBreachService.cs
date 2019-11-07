@@ -12,8 +12,8 @@ namespace PasswordChecker
         /// <summary>
         /// Checks against the provider to see if the password was part of a breach.
         /// </summary>
-        /// <param name="passwordHash">Cleartext password</param>
+        /// <param name="password">Cleartext password</param>
         /// <returns>Count of breaches the password was found in.</returns>
-        Task<int> GetBreachCountAsync(string passwordHash);
+        Task<int> GetBreachCountAsync(string password);
     }
 }
