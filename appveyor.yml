@@ -13,5 +13,5 @@ before_build:
   - cmd: dotnet restore ./PasswordChecker/PasswordChecker.csproj --verbosity m
 build_script:
   # output will be in ./src/bin/debug/netcoreapp1.1/publish
-  - cmd: dotnet publish ./src/src.csproj
+  - cmd: dotnet publish ./PasswordChecker/PasswordChecker.csproj
 deploy: off
