@@ -10,7 +10,7 @@ before_build:
   # Display .NET Core version
   - cmd: dotnet --version
   # Display minimal restore text
-  - cmd: dotnet restore ./PasswordChecker/PasswordChecker.csproj --verbosity m
+  - cmd: dotnet build ./PasswordChecker/PasswordChecker.csproj -c Release --verbosity m
 build_script:
   # output will be in ./src/bin/debug/netcoreapp1.1/publish
   - cmd: dotnet publish ./PasswordChecker/PasswordChecker.csproj
