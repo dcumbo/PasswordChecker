@@ -8,7 +8,7 @@ namespace PasswordChecker
 {
 	class Program
 	{
-		private static readonly PwnedService service = new PwnedService();
+		private static readonly IPasswordBreachService PasswordBreachService = new PasswordBreachService();
 		
 		static async Task Main(string[] args)
 		{
@@ -19,23 +19,12 @@ namespace PasswordChecker
 			
 			foreach (var item in args)
 			{
-				var password = hashPassword(item);
-				var count = await service.GetBreachCountAsync(password);
+				var count = await PasswordBreachService.GetBreachCountAsync(item);
 				
 				Console.WriteLine(count > 0
 					? $"{item} found in {count:N0} breaches."
 					: $"{item} not found in any breach.");
 			}
-		}
-		
-		private static string hashPassword(string password)
-		{
-			if (string.IsNullOrWhiteSpace(password))
-				throw new ArgumentException("Value cannot be null or whitespace.", nameof(password));
-			
-			using var sha1 = new SHA1Managed();
-			var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(password));
-			return string.Concat(hash.Select(b => b.ToString("X2")));
 		}
 	}
 }
