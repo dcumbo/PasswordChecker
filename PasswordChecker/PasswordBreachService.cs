@@ -8,10 +8,10 @@ using Flurl.Http;
 
 namespace PasswordChecker
 {
-	public class PasswordBreachService: IPasswordBreachService
+	public class PasswordBreachService : IPasswordBreachService
 	{
 		/// <summary>
-		/// Service URL.
+		///     Service URL.
 		/// </summary>
 		private const string URL = "https://api.pwnedpasswords.com/range/{password}";
 
@@ -25,12 +25,12 @@ namespace PasswordChecker
 				throw new ArgumentException("Value cannot be null or whitespace.", nameof(password));
 
 			var sha1Password = HashPassword(password);
-			
+
 			var first = sha1Password.Substring(0, 5);
 			var tail = sha1Password.Substring(5);
 
 			var url = URL.Replace("{password}", first);
-			
+
 			var httpResult = await url.GetStringAsync();
 			var result = HandleResult(httpResult.Split(Environment.NewLine), tail);
 
@@ -38,7 +38,7 @@ namespace PasswordChecker
 		}
 
 		/// <summary>
-		/// Parses result and gets the count of breaches the password has been in, if any.
+		///     Parses result and gets the count of breaches the password has been in, if any.
 		/// </summary>
 		/// <param name="httpResult">Result from API service.</param>
 		/// <param name="tail">The rest of the hash (from index 5 onwards).</param>
@@ -47,7 +47,7 @@ namespace PasswordChecker
 		/// <exception cref="ArgumentException">If tail is null or empty.</exception>
 		private int HandleResult(IEnumerable<string> httpResult, string tail)
 		{
-			if (httpResult == null) 
+			if (httpResult == null)
 				throw new ArgumentNullException(nameof(httpResult));
 			if (string.IsNullOrWhiteSpace(tail))
 				throw new ArgumentException("Value cannot be null or whitespace.", nameof(tail));
@@ -57,9 +57,9 @@ namespace PasswordChecker
 				.Select(password => int.Parse(password[1]))
 				.FirstOrDefault();
 		}
-		
+
 		/// <summary>
-		/// Hashes password.
+		///     Hashes password.
 		/// </summary>
 		/// <param name="password">Cleartext password.</param>
 		/// <returns>Hashes password using SHA1</returns>
@@ -68,10 +68,10 @@ namespace PasswordChecker
 		{
 			if (string.IsNullOrWhiteSpace(password))
 				throw new ArgumentException("Value cannot be null or whitespace.", nameof(password));
-			
+
 			using var sha1 = new SHA1Managed();
 			var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(password));
-			
+
 			return string.Concat(hash.Select(b => b.ToString("X2")));
 		}
 	}
