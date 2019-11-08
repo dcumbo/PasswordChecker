@@ -45,7 +45,7 @@ namespace PasswordChecker
 		/// <returns>Count of breaches.</returns>
 		/// <exception cref="ArgumentNullException">If httpResult is null.</exception>
 		/// <exception cref="ArgumentException">If tail is null or empty.</exception>
-		private int HandleResult(IEnumerable<string> httpResult, string tail)
+		private static int HandleResult(IEnumerable<string> httpResult, string tail)
 		{
 			if (httpResult == null)
 				throw new ArgumentNullException(nameof(httpResult));

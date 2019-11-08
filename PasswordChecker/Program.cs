@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using CommandLine;
 
 namespace PasswordChecker
 {
@@ -9,9 +14,15 @@ namespace PasswordChecker
 
 		private static async Task Main(string[] args)
 		{
-			if (args.Length == 0) Console.WriteLine("Pass password value as argument.");
+			await Parser.Default.ParseArguments<Options>(args)
+				.MapResult(
+					async options => await CheckPasswordsAsync(options), 
+					async errors => HandleParseErrors(errors));
+		}
 
-			foreach (var item in args)
+		private static async Task CheckPasswordsAsync(Options options)
+		{
+			foreach (var item in options.Password)
 			{
 				var count = await PasswordBreachService.GetBreachCountAsync(item);
 
@@ -19,6 +30,16 @@ namespace PasswordChecker
 					? $"{item} found in {count:N0} breaches."
 					: $"{item} not found in any breach.");
 			}
+		}
+
+		private static void HandleParseErrors(IEnumerable<Error> errors)
+		{
+			foreach (var error in errors)
+			{
+				Console.WriteLine(error);
+			}
+			
+			Environment.Exit(1);
 		}
 	}
 }
